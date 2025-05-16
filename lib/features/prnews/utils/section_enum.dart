@@ -1,0 +1,1 @@
+enum SectionHeaderStyle { light, dark }

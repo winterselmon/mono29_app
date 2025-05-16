@@ -1,0 +1,2 @@
+/Users/varint/Project/mono29_flutter/android/app/.cxx/RelWithDebInfo/5q1d6g5d/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/varint/Project/mono29_flutter/android/app/.cxx/RelWithDebInfo/5q1d6g5d/armeabi-v7a/CMakeFiles/rebuild_cache.dir
