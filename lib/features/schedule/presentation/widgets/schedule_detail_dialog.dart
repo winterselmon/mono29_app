@@ -1,5 +1,4 @@
 import 'package:MONO29/core/constants/app_colors.dart';
-import 'package:MONO29/core/dispatch/schedule_dispatcher.dart';
 import 'package:MONO29/core/network/api_service.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/core/utils/log.dart';
