@@ -12,9 +12,9 @@ final class RerunInitial extends RerunState {}
 class RerunLoading extends RerunState {}
 
 class RerunHighlightLoaded extends RerunState {
-  final RerunHighlightResposneModel rerunHighlightResposneModel;
+  final RerunYtHighlightResponseModel rerunYtHighlightResponseModel;
 
-  const RerunHighlightLoaded(this.rerunHighlightResposneModel);
+  const RerunHighlightLoaded(this.rerunYtHighlightResponseModel);
 }
 
 class RerunSeriesLoaded extends RerunState {
@@ -23,33 +23,24 @@ class RerunSeriesLoaded extends RerunState {
 }
 
 class RerunNewsLoaded extends RerunState {
-  final RerunNewsResposneModel rerunNewsResposneModel;
-  const RerunNewsLoaded(this.rerunNewsResposneModel);
+  final RerunYtNewsResponseModel rerunYtNewsResponseModel;
+  const RerunNewsLoaded(this.rerunYtNewsResponseModel);
 }
 
-class RerunNewsSingleLoaded extends RerunState {
-  final RerunNewsSingleResponseModel rerunNewsSingleResponseModel;
+class RerunPlaylistLoaded extends RerunState {
+  final RerunYtPlaylistResponseModel rerunYtPlaylistResponseModel;
   final String playlistId;
-  final String videoId;
+  final String playlistName;
 
-  const RerunNewsSingleLoaded(
-      this.rerunNewsSingleResponseModel, this.playlistId, this.videoId);
-
-  @override
-  List<Object> get props => [rerunNewsSingleResponseModel, playlistId, videoId];
-}
-
-class RerunSeriesSingleLoaded extends RerunState {
-  final RerunSeriesSingleResponseModel rerunSeriesSingleResponseModel;
-  final String playlistId;
-  final String videoId;
-
-  const RerunSeriesSingleLoaded(
-      this.rerunSeriesSingleResponseModel, this.playlistId, this.videoId);
+  const RerunPlaylistLoaded(
+    this.rerunYtPlaylistResponseModel,
+    this.playlistId,
+    this.playlistName,
+  );
 
   @override
   List<Object> get props =>
-      [rerunSeriesSingleResponseModel, playlistId, videoId];
+      [rerunYtPlaylistResponseModel, playlistId, playlistName];
 }
 
 class RerunError extends RerunState {
@@ -57,18 +48,11 @@ class RerunError extends RerunState {
   const RerunError(this.message);
 }
 
-class SelectSeriesTypeState extends RerunState {
-  final String selectedType;
-  const SelectSeriesTypeState(this.selectedType);
+class SelectPlaylistState extends RerunState {
+  final bool isPlaylistMode;
+  final String playlistName;
+  const SelectPlaylistState(this.isPlaylistMode, this.playlistName);
 
   @override
-  List<Object> get props => [selectedType];
-}
-
-class SelectNewsTypeState extends RerunState {
-  final String selectedType;
-  const SelectNewsTypeState(this.selectedType);
-
-  @override
-  List<Object> get props => [selectedType];
+  List<Object> get props => [isPlaylistMode, playlistName];
 }

@@ -1,23 +1,23 @@
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
-import 'package:MONO29/features/rerun/data/models/response/rerun_news_response_model.dart';
-import 'package:MONO29/features/rerun/presentation/dialog/rerun_highlight_dialog.dart';
+import 'package:MONO29/features/rerun/data/models/response/rerun_yt_playlist_response_model.dart';
+import 'package:MONO29/features/rerun/presentation/dialog/rerun_yt_news_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewsList extends StatelessWidget {
-  final List<GeneralData> items;
+  final List<YtPlaylistData> items;
 
   const NewsList({super.key, required this.items});
 
   void _showNewsDetailDialog(
-      BuildContext context, String playlistId, String videoId) {
+      BuildContext context, YtPlaylistData ytPlaylistData, String type) {
     showCupertinoModalPopup(
       context: context,
-      builder: (_) => RerunHighlightDialog(
-        playlistId: playlistId,
-        videoId: videoId,
+      builder: (context) => RerunYtNewsDialog(
+        ytPlaylistData: ytPlaylistData,
+        type: type,
       ),
     );
   }
@@ -32,13 +32,13 @@ class NewsList extends StatelessWidget {
       ),
       itemCount: items.length,
       itemBuilder: (_, index) {
-        GeneralData gridItem = items[index];
+        YtPlaylistData gridItem = items[index];
         return GestureDetector(
           onTap: () {
             _showNewsDetailDialog(
               context,
-              gridItem.pid!,
-              gridItem.id.toString(),
+              gridItem,
+              'video',
             );
           },
           child: Container(
@@ -50,7 +50,7 @@ class NewsList extends StatelessWidget {
                   CachedNetworkImage(
                     width: 160,
                     fit: BoxFit.cover,
-                    imageUrl: items[index].img ?? '',
+                    imageUrl: items[index].thumbnails ?? '',
                     errorWidget: (_, __, ___) => const Icon(Icons.error),
                     placeholder: (_, __) => Image.asset(
                       'assets/images/default-thumbnail320.jpg',

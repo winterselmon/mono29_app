@@ -100,18 +100,18 @@ class LiveControlsRow extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onReplay;
   final String selectedLanguage;
-  final String selectedQuality;
+  // final String selectedQuality;
   final ValueChanged<String> onLanguageChanged;
-  final ValueChanged<String> onQualityChanged;
+  // final ValueChanged<String> onQualityChanged;
 
   const LiveControlsRow({
     super.key,
     required this.onBack,
     required this.onReplay,
     required this.selectedLanguage,
-    required this.selectedQuality,
+    // required this.selectedQuality,
     required this.onLanguageChanged,
-    required this.onQualityChanged,
+    // required this.onQualityChanged,
   });
 
   @override
@@ -121,7 +121,7 @@ class LiveControlsRow extends StatefulWidget {
 class _LiveControlsRowState extends State<LiveControlsRow> {
   @override
   Widget build(BuildContext context) {
-    const padding = EdgeInsets.symmetric(vertical: 4, horizontal: 6);
+    const padding = EdgeInsets.symmetric(vertical: 4, horizontal: 16);
     const languages = ['TH', 'EN'];
     const qualities = ['240P', '360P', '720P', '1080P'];
 
@@ -138,7 +138,7 @@ class _LiveControlsRowState extends State<LiveControlsRow> {
               onTap: widget.onReplay,
               child: Container(
                 color: AppColors.liveReload,
-                padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                padding: padding,
                 child: const Icon(Icons.replay_outlined,
                     color: AppColors.whiteColor),
               ),
@@ -169,24 +169,24 @@ class _LiveControlsRowState extends State<LiveControlsRow> {
 
             addHorizontalSpace(8),
 
-            // Quality buttons
-            ...qualities.map((quality) => GestureDetector(
-                  onTap: () => widget.onQualityChanged(quality),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 1),
-                    decoration: BoxDecoration(
-                      color: AppColors.liveQualitie,
-                      border: widget.selectedQuality == quality
-                          ? Border.all(color: Colors.white, width: 1)
-                          : null,
-                    ),
-                    padding: padding,
-                    child: Text(
-                      quality,
-                      style: const TextStyle(color: AppColors.whiteColor),
-                    ),
-                  ),
-                )),
+            // // Quality buttons
+            // ...qualities.map((quality) => GestureDetector(
+            //       onTap: () => widget.onQualityChanged(quality),
+            //       child: Container(
+            //         margin: const EdgeInsets.symmetric(horizontal: 1),
+            //         decoration: BoxDecoration(
+            //           color: AppColors.liveQualitie,
+            //           border: widget.selectedQuality == quality
+            //               ? Border.all(color: Colors.white, width: 1)
+            //               : null,
+            //         ),
+            //         padding: padding,
+            //         child: Text(
+            //           quality,
+            //           style: const TextStyle(color: AppColors.whiteColor),
+            //         ),
+            //       ),
+            //     )),
           ],
         ),
       ],

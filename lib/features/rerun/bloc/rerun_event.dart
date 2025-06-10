@@ -12,28 +12,9 @@ class FetchTabData extends RerunEvent {
   const FetchTabData(this.tabIndex);
 }
 
-class FetchRerunNewsSingle extends RerunEvent {
+class FetchRerunYtPlaylist extends RerunEvent {
   final String playlistId;
-  final String videoId;
+  final String playlistName;
 
-  const FetchRerunNewsSingle(this.playlistId, this.videoId);
-}
-
-class FetchRerunSereisSingle extends RerunEvent {
-  final String playlistId;
-  final String videoId;
-
-  const FetchRerunSereisSingle(this.playlistId, this.videoId);
-}
-
-class SelectSeriesType extends RerunEvent {
-  final String selectedType;
-
-  const SelectSeriesType(this.selectedType);
-}
-
-class SelectNewsType extends RerunEvent {
-  final String selectedType;
-
-  const SelectNewsType(this.selectedType);
+  const FetchRerunYtPlaylist(this.playlistId, this.playlistName);
 }

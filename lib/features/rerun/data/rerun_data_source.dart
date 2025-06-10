@@ -6,6 +6,9 @@ import 'package:MONO29/features/rerun/data/models/response/rerun_news_response_m
 import 'package:MONO29/features/rerun/data/models/response/rerun_news_single_response_model.dart';
 import 'package:MONO29/features/rerun/data/models/response/rerun_series_response_model.dart';
 import 'package:MONO29/features/rerun/data/models/response/rerun_series_single_response_model.dart';
+import 'package:MONO29/features/rerun/data/models/response/rerun_yt_highlight_response_model.dart';
+import 'package:MONO29/features/rerun/data/models/response/rerun_yt_news_response_model.dart';
+import 'package:MONO29/features/rerun/data/models/response/rerun_yt_playlist_response_model.dart';
 
 class RerunDataSource {
   final ApiService apiService;
@@ -43,7 +46,8 @@ class RerunDataSource {
   }
 
   Future<dynamic> fetchRerunNewsSingle({Map<String, dynamic>? body}) async {
-    final json = await apiService.post(ApiEndpoints.rerunNewsSingle, body: body);
+    final json =
+        await apiService.post(ApiEndpoints.rerunNewsSingle, body: body);
 
     if (json is Map<String, dynamic>) {
       printLog(json.toString());
@@ -60,6 +64,38 @@ class RerunDataSource {
 
     if (json is Map<String, dynamic>) {
       return RerunSeriesSingleResponseModel.fromJson(json);
+    } else {
+      printLog('Unexpected JSON format: $json');
+    }
+  }
+
+  Future<dynamic> fetchRerunYtHighlight({Map<String, dynamic>? body}) async {
+    final json =
+        await apiService.post(ApiEndpoints.rerunYtHighlight, body: body);
+
+    if (json is Map<String, dynamic>) {
+      return RerunYtHighlightResponseModel.fromJson(json);
+    } else {
+      printLog('Unexpected JSON format: $json');
+    }
+  }
+
+  Future<dynamic> fetchRerunYtNews({Map<String, dynamic>? body}) async {
+    final json = await apiService.post(ApiEndpoints.rerunYtNews, body: body);
+
+    if (json is Map<String, dynamic>) {
+      return RerunYtNewsResponseModel.fromJson(json);
+    } else {
+      printLog('Unexpected JSON format: $json');
+    }
+  }
+
+  Future<dynamic> fetchRerunYtPlaylist({Map<String, dynamic>? body}) async {
+    final json =
+        await apiService.post(ApiEndpoints.rerunYtPlaylist, body: body);
+
+    if (json is Map<String, dynamic>) {
+      return RerunYtPlaylistResponseModel.fromJson(json);
     } else {
       printLog('Unexpected JSON format: $json');
     }

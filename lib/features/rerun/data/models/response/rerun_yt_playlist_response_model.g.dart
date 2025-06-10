@@ -1,22 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'video_stream_response_model.dart';
+part of 'rerun_yt_playlist_response_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-VideoStreamResponse _$VideoStreamResponseFromJson(Map<String, dynamic> json) =>
-    VideoStreamResponse(
+RerunYtPlaylistResponseModel _$RerunYtPlaylistResponseModelFromJson(
+        Map<String, dynamic> json) =>
+    RerunYtPlaylistResponseModel(
       status: json['status'] as bool?,
       message: json['message'] as String?,
-      data: json['data'] == null
-          ? null
-          : Data.fromJson(json['data'] as Map<String, dynamic>),
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => YtPlaylistData.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$VideoStreamResponseToJson(
-        VideoStreamResponse instance) =>
+Map<String, dynamic> _$RerunYtPlaylistResponseModelToJson(
+        RerunYtPlaylistResponseModel instance) =>
     <String, dynamic>{
       'status': instance.status,
       'message': instance.message,

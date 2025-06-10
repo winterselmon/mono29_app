@@ -28,7 +28,6 @@ class ApiService {
 
   Future<dynamic> post(String url, {Map<String, dynamic>? body}) async {
     try {
-      // final response = await dio.post(url, data: body);
       final response = await dio.post(
         url,
         data: FormData.fromMap(body ?? {}),

@@ -19,11 +19,11 @@ class RerunHighlightList extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = highlight[index];
         return GestureDetector(
-          onTap: () => RerunDispatcher.disPatchRerunNewsSingle(
-            context,
-            item.pid,
-            item.id,
-          ),
+          // onTap: () => RerunDispatcher.disPatchRerunNewsSingle(
+          //   context,
+          //   item.pid,
+          //   item.id,
+          // ),
           child: Row(
             children: [
               CachedNetworkImage(

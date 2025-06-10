@@ -1,3 +1,4 @@
+import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/live/data/models/video_stream_response_model.dart';
 import 'package:MONO29/features/live/domain/repositories/live_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -14,6 +15,7 @@ class LiveBloc extends Bloc<LiveEvent, LiveState> {
       emit(LiveLoading());
       try {
         final result = await repository.fetchStreamFeed();
+        printLog(result.toString());
         emit(LiveLoaded(result));
       } catch (e) {
         emit(LiveError(e.toString()));
@@ -49,4 +51,3 @@ class LiveBloc extends Bloc<LiveEvent, LiveState> {
     });
   }
 }
-

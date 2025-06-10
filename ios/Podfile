@@ -42,3 +42,7 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
+
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/byteark/byteark-player-sdk-ios-specs.git'
+source 'https://github.com/byteark/lighthouse-sdk-native-ios-specs.git'

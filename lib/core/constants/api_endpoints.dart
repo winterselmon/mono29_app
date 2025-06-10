@@ -11,6 +11,10 @@ class ApiEndpoints {
   static const rerunNews = "/feed_rerun_news.php";
   static const rerunNewsSingle = "/feed_rerun_news_single.php";
   static const rerunSeriesSingle = "/feed_rerun_series_single.php";
+  static const rerunYtHighlight = "/feed_rerun_yt_highlight.php";
+  static const rerunYtNews = "/feed_rerun_yt_news.php";
+  static const rerunYtPlaylist = "/feed_rerun_yt_playlist.php";
+
 
   static const schedule = "/feed_schedule.php";
   static const scheduleDetail = "/feed_schedule_detail.php";

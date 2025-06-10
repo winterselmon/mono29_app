@@ -4,110 +4,99 @@ part 'video_stream_response_model.g.dart';
 
 @JsonSerializable()
 class VideoStreamResponse {
-  final bool status;
-  final String message;
-  final VideoStreamData data;
+  bool? status;
+  String? message;
+  Data? data;
 
-  VideoStreamResponse({
-    required this.status,
-    required this.message,
-    required this.data,
-  });
+  VideoStreamResponse({this.status, this.message, this.data});
 
-  factory VideoStreamResponse.fromJson(Map<String, dynamic> json) =>
-      _$VideoStreamResponseFromJson(json);
+  VideoStreamResponse.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+  }
 
-  Map<String, dynamic> toJson() => _$VideoStreamResponseToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
 }
 
-@JsonSerializable()
-class VideoStreamData {
-  @JsonKey(
-    fromJson: _mapStreamUrlFromJson,
-    toJson: _mapStreamUrlToJson,
-  )
-  final Map<String, StreamUrl> hls;
+class Data {
+  Hls? hls;
+  List<dynamic>? drm;
+  Googleima? googleima;
 
-  @JsonKey(
-    fromJson: _mapDrmStreamFromJson,
-    toJson: _mapDrmStreamToJson,
-  )
-  final Map<String, DrmStream> drm;
+  Data({this.hls, this.drm, this.googleima});
 
-  final GoogleIma googleima;
+  Data.fromJson(Map<String, dynamic> json) {
+    hls = json['hls'] != null ? Hls.fromJson(json['hls']) : null;
+    drm = json['drm'];
+    googleima = json['googleima'] != null
+        ? Googleima.fromJson(json['googleima'])
+        : null;
+  }
 
-  VideoStreamData({
-    required this.hls,
-    required this.drm,
-    required this.googleima,
-  });
-
-  factory VideoStreamData.fromJson(Map<String, dynamic> json) =>
-      _$VideoStreamDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VideoStreamDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (hls != null) {
+      data['hls'] = hls!.toJson();
+    }
+    if (drm != null) {
+      data['drm'] = drm!.map((v) => v?.toJson()).toList();
+    }
+    if (googleima != null) {
+      data['googleima'] = googleima!.toJson();
+    }
+    return data;
+  }
 }
 
-// ---------- Helper functions ----------
-Map<String, StreamUrl> _mapStreamUrlFromJson(Map<String, dynamic> json) =>
-    json.map((key, value) => MapEntry(key, StreamUrl.fromJson(value)));
+class Hls {
+  String? tH;
+  String? eN;
 
-Map<String, dynamic> _mapStreamUrlToJson(Map<String, StreamUrl> map) =>
-    map.map((key, value) => MapEntry(key, value.toJson()));
+  Hls({this.tH, this.eN});
 
-Map<String, DrmStream> _mapDrmStreamFromJson(Map<String, dynamic> json) =>
-    json.map((key, value) => MapEntry(key, DrmStream.fromJson(value)));
+  Hls.fromJson(Map<String, dynamic> json) {
+    tH = json['TH'];
+    eN = json['EN'];
+  }
 
-Map<String, dynamic> _mapDrmStreamToJson(Map<String, DrmStream> map) =>
-    map.map((key, value) => MapEntry(key, value.toJson()));
-
-// ---------- Other Models ----------
-
-@JsonSerializable()
-class StreamUrl {
-  final String url;
-
-  StreamUrl({required this.url});
-
-  factory StreamUrl.fromJson(Map<String, dynamic> json) =>
-      _$StreamUrlFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StreamUrlToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['TH'] = tH;
+    data['EN'] = eN;
+    return data;
+  }
 }
 
-@JsonSerializable()
-class DrmStream {
-  final String url;
-  final String proxy;
+class Googleima {
+  String? ios;
+  String? android;
+  int? delayNextAds;
+  int? mustWatchAds;
 
-  DrmStream({required this.url, required this.proxy});
+  Googleima({this.ios, this.android, this.delayNextAds, this.mustWatchAds});
 
-  factory DrmStream.fromJson(Map<String, dynamic> json) =>
-      _$DrmStreamFromJson(json);
+  Googleima.fromJson(Map<String, dynamic> json) {
+    ios = json['ios'];
+    android = json['android'];
+    delayNextAds = json['delay_next_ads'];
+    mustWatchAds = json['must_watch_ads'];
+  }
 
-  Map<String, dynamic> toJson() => _$DrmStreamToJson(this);
-}
-
-@JsonSerializable()
-class GoogleIma {
-  final String ios;
-  final String android;
-
-  @JsonKey(name: 'delay_next_ads')
-  final int delayNextAds;
-
-  @JsonKey(name: 'must_watch_ads')
-  final int mustWatchAds;
-
-  GoogleIma({
-    required this.ios,
-    required this.android,
-    required this.delayNextAds,
-    required this.mustWatchAds,
-  });
-
-  factory GoogleIma.fromJson(Map<String, dynamic> json) =>
-      _$GoogleImaFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GoogleImaToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ios'] = ios;
+    data['android'] = android;
+    data['delay_next_ads'] = delayNextAds;
+    data['must_watch_ads'] = mustWatchAds;
+    return data;
+  }
 }

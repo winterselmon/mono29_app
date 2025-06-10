@@ -7,23 +7,10 @@ class RerunDispatcher {
     context.read<RerunBloc>().add(FetchTabData(tabIndex));
   }
 
-  static void disPatchIsSelectSeries(
-      BuildContext context, String selectedType) {
-    context.read<RerunBloc>().add(SelectSeriesType(selectedType));
-  }
-
-  static void disPatchIsSelectNewsType(
-      BuildContext context, String selectedType) {
-    context.read<RerunBloc>().add(SelectNewsType(selectedType));
-  }
-
-  static void disPatchRerunNewsSingle(
-      BuildContext context, String playlistId, String videoId) {
-    context.read<RerunBloc>().add(FetchRerunNewsSingle(playlistId, videoId));
-  }
-
-  static void disPatchRerunSeriesSingle(
-      BuildContext context, String playlistId, String videoId) {
-    context.read<RerunBloc>().add(FetchRerunSereisSingle(playlistId, videoId));
+  static void disPatchRerunYtPlaylist(
+      BuildContext context, String playlistId, String playlistName) {
+    context
+        .read<RerunBloc>()
+        .add(FetchRerunYtPlaylist(playlistId, playlistName));
   }
 }
