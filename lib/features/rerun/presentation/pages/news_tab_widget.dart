@@ -65,7 +65,7 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
                           imageUrl: newsYtList[index].thumbnailUrl ?? '',
                           errorWidget: (_, __, ___) => const Icon(Icons.error),
                           placeholder: (_, __) => Image.asset(
-                            'assets/images/default-thumbnail320.jpg',
+                            'assets/images/Mono_29_Logo.png',
                           ),
                         ),
                         addVerticalSpace(10),

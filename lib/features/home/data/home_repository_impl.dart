@@ -1,3 +1,4 @@
+import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/home/data/home_data_source.dart';
 import 'package:MONO29/features/home/data/models/response/check_version_response_model.dart';
 import 'package:MONO29/features/home/data/models/response/user_agreement_accept_response_model.dart';
@@ -24,6 +25,7 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<UserAgreementAcceptResponseModel> fetchUserAgreementAccept(
       Map<String, dynamic> body) async {
+    printLog('impl : $body');
     return await dataSource.getUserAgreementAcceptFeed(body: body);
   }
 }

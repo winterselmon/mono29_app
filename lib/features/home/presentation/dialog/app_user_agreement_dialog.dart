@@ -1,12 +1,17 @@
 import 'package:MONO29/core/constants/app_colors.dart';
+import 'package:MONO29/core/constants/global_values.dart';
 import 'package:MONO29/core/network/api_service.dart';
+import 'package:MONO29/core/utils/app_pref_key.dart';
+import 'package:MONO29/core/utils/app_preferences.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/home/data/home_data_source.dart';
+import 'package:MONO29/features/home/data/home_repository_impl.dart';
 import 'package:MONO29/features/home/data/models/request/user_agreement_accept_request_model.dart';
 import 'package:MONO29/features/home/data/models/response/user_agreement_accept_response_model.dart';
 import 'package:MONO29/features/home/data/models/response/user_agreement_response_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class AppUserAgreementDialog extends StatefulWidget {
@@ -19,27 +24,39 @@ class AppUserAgreementDialog extends StatefulWidget {
 
 class _AppUserAgreementDialogState extends State<AppUserAgreementDialog> {
   bool isCheck = false;
-
+  late BuildContext _buildContext;
   TextStyle styleIsCheck =
       TextStyle(fontSize: 16, color: AppColors.textIsCheck);
 
   Future<UserAgreementAcceptResponseModel> fetchUserAgreementAccept(
       BuildContext context) async {
+    EasyLoading.show();
     final apiService = ApiService();
 
     try {
+      // UserAgreementResponseModel userAgreementResponseModel =
+      //         await repository.fetchUserAgreement({'udid': udid});
+
       UserAgreementAcceptRequestModel userAgreementAcceptRequestModel =
           UserAgreementAcceptRequestModel();
-      userAgreementAcceptRequestModel.uuid = 'test1111';
+      userAgreementAcceptRequestModel.udid = GlobalValues.udidGlobal;
 
+      // UserAgreementAcceptResponseModel userAgreementAcceptResponseModel =
+      //     await HomeDataSource(apiService).getUserAgreementAcceptFeed(
+      //         body: userAgreementAcceptRequestModel.toJson());
       UserAgreementAcceptResponseModel userAgreementAcceptResponseModel =
-          await HomeDataSource(apiService).getUserAgreementAcceptFeed(
-              body: userAgreementAcceptRequestModel.toJson());
+          await HomeRepositoryImpl(HomeDataSource(apiService))
+              .fetchUserAgreementAccept(
+                  userAgreementAcceptRequestModel.toJson());
 
-      printLog(userAgreementAcceptResponseModel.toJson().toString());
+      if (userAgreementAcceptResponseModel.status == true) {
+        AppPreferences.setBool(AppPrefKeys.isShowDialog, true);
+        GlobalValues.isShowDialog = true;
 
-      if (userAgreementAcceptResponseModel.status!) {}
-
+        EasyLoading.dismiss();
+      } else {
+        printLog('Failed to Accept User Agreement');
+      }
       return userAgreementAcceptResponseModel;
     } catch (e) {
       printLog(e);
@@ -47,8 +64,16 @@ class _AppUserAgreementDialogState extends State<AppUserAgreementDialog> {
     }
   }
 
+  _closeDialog() async {
+    // AppPreferences.setBool(AppPrefKeys.isShowDialog, true);
+    // GlobalValues.isShowDialog = true;
+
+    Navigator.pop(_buildContext);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _buildContext = context;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -152,10 +177,20 @@ class _AppUserAgreementDialogState extends State<AppUserAgreementDialog> {
                       right: 0,
                       left: 0,
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           if (isCheck) {
-                            printLog('check');
-                            fetchUserAgreementAccept(context);
+                            await fetchUserAgreementAccept(context)
+                                .then((_) async {
+                              // AppPreferences.setBool(
+                              //     AppPrefKeys.isShowDialog, true);
+
+                              // bool isShown = await AppPreferences.getBool(
+                              //     AppPrefKeys.isShowDialog);
+                              // // GlobalValues.isShowDialog = isShown;
+                              // printLog('Is User Agreement Shown: $isShown');
+
+                              _closeDialog();
+                            });
                           }
                         },
                         child: Container(

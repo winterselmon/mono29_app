@@ -1,5 +1,8 @@
 import 'package:MONO29/core/constants/global_values.dart';
 import 'package:MONO29/core/network/api_service.dart';
+import 'package:MONO29/core/utils/app_pref_key.dart';
+import 'package:MONO29/core/utils/app_preferences.dart';
+import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/home/bloc/bloc/home_bloc.dart';
 import 'package:MONO29/features/home/constants/home_constants.dart';
 import 'package:MONO29/features/home/data/home_data_source.dart';
@@ -11,6 +14,7 @@ import 'package:MONO29/features/live/presentation/screen/live_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController = PageController();
   int _currentIndex = 1;
   final ApiService _apiService = ApiService();
+  bool isShowDialog = false;
 
   void _showAppUserAgreement(BuildContext context, Data data) {
     showCupertinoModalPopup(
@@ -37,7 +42,25 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
+    _setPermission();
+
+    AppPreferences.setBool(
+      AppPrefKeys.isShowDialog,
+      false,
+    );
+
+    _checkUserAgreementShown();
+
     _pageController = PageController(initialPage: 1);
+  }
+
+  _setPermission() async {
+    await Permission.storage.request();
+  }
+
+  void _checkUserAgreementShown() async {
+    bool isShown = await AppPreferences.getBool(AppPrefKeys.isShowDialog);
+    GlobalValues.isShowDialog = isShown;
   }
 
   _onTapMenu(int index) {
@@ -77,12 +100,23 @@ class _HomeScreenState extends State<HomeScreen> {
               _currentIndex = state.currentIndex;
               _pageController.jumpToPage(_currentIndex);
             } else if (state is ShowUserAgreement) {
-              if (!GlobalValues.isShowDialog) {
-                GlobalValues.isShowDialog = true;
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _showAppUserAgreement(
-                      context, state.userAgreementResponseModel.data!);
-                });
+              // if (!GlobalValues.isShowDialog) {
+              //   WidgetsBinding.instance.addPostFrameCallback((_) {
+              //     _showAppUserAgreement(
+              //         context, state.userAgreementResponseModel.data!);
+              //   });
+              // }
+              if (GlobalValues.isShowDialog == false) {
+                if (state.userAgreementResponseModel.data != null) {
+                  if (state.userAgreementResponseModel.data!.isShow!) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _showAppUserAgreement(
+                        context,
+                        state.userAgreementResponseModel.data!,
+                      );
+                    });
+                  }
+                }
               }
             }
             return PageView(

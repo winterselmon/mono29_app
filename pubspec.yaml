@@ -58,7 +58,8 @@ dependencies:
   video_player: ^2.9.5
   better_player_plus: ^1.0.8
   youtube_player_flutter: ^9.1.1
-
+  shared_preferences: ^2.5.3
+  permission_handler: ^12.0.0+1
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +76,7 @@ dev_dependencies:
   
 
 flutter_launcher_icons:
-  image_path: "assets/images/1dd0426aff9ac475981bc5c236b960d98a8b3424.png"
+  image_path: "assets/images/logo-sq-mono29_0.png"
   android: true
   ios: true
   remove_alpha_ios: true
@@ -96,7 +97,7 @@ flutter_native_splash:
   # color: "#42a5f5"
   # color: "#FFFFFF"
 
-  background_image: "assets/images/1dd0426aff9ac475981bc5c236b960d98a8b3424.png"
+  background_image: "assets/images/logo-sq-mono29_0.png"
 
   # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
   # the leading # character.

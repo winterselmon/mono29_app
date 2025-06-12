@@ -9,11 +9,11 @@ part of 'user_agreement_accept_request_model.dart';
 UserAgreementAcceptRequestModel _$UserAgreementAcceptRequestModelFromJson(
         Map<String, dynamic> json) =>
     UserAgreementAcceptRequestModel(
-      uuid: json['uuid'] as String?,
+      udid: json['udid'] as String?,
     );
 
 Map<String, dynamic> _$UserAgreementAcceptRequestModelToJson(
         UserAgreementAcceptRequestModel instance) =>
     <String, dynamic>{
-      'uuid': instance.uuid,
+      'udid': instance.udid,
     };

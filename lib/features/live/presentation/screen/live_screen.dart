@@ -94,12 +94,12 @@ class _LiveScreenState extends State<LiveScreen> {
       fullScreenButton: true,
 
       // Optional : Set up ads if needed.
-      adsSettings: ByteArkAdsSettings(
-          // adTagUrl:
-          //     'https://pubads.g.doubleclick.net/gampad/live/ads?sz=640x480&iu=/10983686/Mono29/Mono29(App)_Preroll(Live)/Mono29(App)_Pre(Live)_Android&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&url=[referrer_url]&description_url=[description_url]&correlator=&cust_params=video_channel%3Dmono29&msid=com.monobroadcast.mono29',
-          adTagUrl:
-              'https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator='
-              ),
+      // adsSettings: ByteArkAdsSettings(
+      //   adTagUrl:
+      //       'https://pubads.g.doubleclick.net/gampad/live/ads?sz=640x480&iu=/10983686/Mono29/Mono29(App)_Preroll(Live)/Mono29(App)_Pre(Live)_Android&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&url=[referrer_url]&description_url=[description_url]&correlator=&cust_params=video_channel%3Dmono29&msid=com.monobroadcast.mono29',
+      //   // adTagUrl:
+      //   //     'https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator='
+      // ),
       licenseKey: ByteArkPlayerLicenseKey(
         // android:
         //     "E5BDB0-11C1F9-D0EA1A-4A2516-D4657B-V3", // Replace with your Android license key

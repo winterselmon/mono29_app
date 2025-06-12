@@ -83,7 +83,7 @@ class _HightlightWidgetState extends State<HightlightWidget> {
                                     int realIndex) {
                                   HighlightItem highlightItem =
                                       data.data![index];
-                                  currentPage = index;
+                                  // currentPage = index;
                                   return GestureDetector(
                                     onTap: () {
                                       handleMode(
@@ -98,8 +98,9 @@ class _HightlightWidgetState extends State<HightlightWidget> {
                                         imageUrl: data.data![index].thumbnail!,
                                         errorWidget: (context, url, error) =>
                                             Icon(Icons.error),
-                                        placeholder: (context, url) => Image.asset(
-                                            'assets/images/default-thumbnail320.jpg'),
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                                'assets/images/Mono_29_Logo.png'),
                                       ),
                                     ),
                                   );

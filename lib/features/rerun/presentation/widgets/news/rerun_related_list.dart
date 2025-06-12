@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:MONO29/core/dispatch/rerun_dispatcher.dart';
 import 'package:MONO29/features/rerun/data/models/response/rerun_news_single_response_model.dart';
 
 class RerunRelatedList extends StatelessWidget {
@@ -31,7 +30,7 @@ class RerunRelatedList extends StatelessWidget {
                 width: 160,
                 errorWidget: (_, __, ___) => const Icon(Icons.error),
                 placeholder: (_, __) => Image.asset(
-                  'assets/images/default-thumbnail320.jpg',
+                  'assets/images/Mono_29_Logo.png',
                 ),
               ),
               const SizedBox(width: 10),

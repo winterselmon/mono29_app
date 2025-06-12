@@ -4,17 +4,17 @@ part 'schedule_request.mode.g.dart';
 
 @JsonSerializable()
 class ScheduleRequestModel {
-  String? uuid;
+  String? udid;
 
-  ScheduleRequestModel({this.uuid});
+  ScheduleRequestModel({this.udid});
 
   ScheduleRequestModel.fromJson(Map<String, dynamic> json) {
-    uuid = json['uuid'];
+    udid = json['udid'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['uuid'] = uuid;
+    data['udid'] = udid;
     return data;
   }
 }

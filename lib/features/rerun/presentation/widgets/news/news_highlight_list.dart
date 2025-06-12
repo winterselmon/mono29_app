@@ -49,7 +49,7 @@ class NewsHighlightList extends StatelessWidget {
                       imageUrl: newsList[index].img ?? '',
                       errorWidget: (_, __, ___) => const Icon(Icons.error),
                       placeholder: (_, __) => Image.asset(
-                        'assets/images/default-thumbnail320.jpg',
+                        'assets/images/Mono_29_Logo.png',
                       ),
                     ),
                     addHorizontalSpace(10),

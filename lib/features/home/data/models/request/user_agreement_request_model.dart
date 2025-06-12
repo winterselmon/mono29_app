@@ -4,17 +4,17 @@ part 'user_agreement_request_model.g.dart';
 
 @JsonSerializable()
 class UserAgreementRequestModel {
-  String? uuid;
+  String? udid;
 
-  UserAgreementRequestModel({this.uuid});
+  UserAgreementRequestModel({this.udid});
 
   UserAgreementRequestModel.fromJson(Map<String, dynamic> json) {
-    uuid = json['uuid'];
+    udid = json['udid'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['uuid'] = uuid;
+    data['udid'] = udid;
     return data;
   }
 }

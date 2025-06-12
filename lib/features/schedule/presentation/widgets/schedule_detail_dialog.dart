@@ -115,7 +115,7 @@ class _ScheduleDetailDialogState extends State<ScheduleDetailDialog> {
                                                         placeholder: (context,
                                                                 url) =>
                                                             Image.asset(
-                                                                'assets/images/default-thumbnail320.jpg'),
+                                                                'assets/images/Mono_29_Logo.png'),
                                                       ),
                                                     ),
                                                     // addVerticalSpace(10),

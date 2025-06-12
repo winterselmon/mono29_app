@@ -27,7 +27,7 @@ class _CompanyMapWidgetState extends State<CompanyMapWidget> {
         imageUrl: widget.map,
         errorWidget: (context, url, error) => Icon(Icons.error),
         placeholder: (context, url) =>
-            Image.asset('assets/images/default-thumbnail320.jpg'),
+            Image.asset('assets/images/Mono_29_Logo.png'),
       ),
     );
   }

@@ -1,3 +1,4 @@
 abstract class GlobalValues {
-  static bool isShowDialog = false;
+  static bool isShowDialog = true;
+  static String udidGlobal = '';
 }

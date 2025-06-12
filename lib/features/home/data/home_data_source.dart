@@ -33,6 +33,7 @@ class HomeDataSource {
 
   Future<dynamic> getUserAgreementAcceptFeed(
       {Map<String, dynamic>? body}) async {
+    printLog('getUserAgreementAcceptFeed: $body');
     final json =
         await apiService.post(ApiEndpoints.userAgreementAccept, body: body);
 

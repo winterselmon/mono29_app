@@ -68,7 +68,7 @@ class ScheduleGridItem extends StatelessWidget {
                       imageUrl: scheduleItem.image2,
                       errorWidget: (_, __, ___) => const Icon(Icons.error),
                       placeholder: (_, __) => Image.asset(
-                        'assets/images/default-thumbnail320.jpg',
+                        'assets/images/Mono_29_Logo.png',
                       ),
                     ),
                     Text(

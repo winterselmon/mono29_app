@@ -191,7 +191,7 @@ class _EventScreenState extends State<EventScreen> {
                                             errorWidget: (_, __, ___) =>
                                                 const Icon(Icons.error),
                                             placeholder: (_, __) => Image.asset(
-                                              'assets/images/default-thumbnail320.jpg',
+                                              'assets/images/Mono_29_Logo.png',
                                             ),
                                           ),
                                         ),
@@ -237,7 +237,7 @@ class _EventScreenState extends State<EventScreen> {
                                             errorWidget: (_, __, ___) =>
                                                 const Icon(Icons.error),
                                             placeholder: (_, __) => Image.asset(
-                                              'assets/images/default-thumbnail320.jpg',
+                                              'assets/images/Mono_29_Logo.png',
                                             ),
                                           ),
                                           Container(
