@@ -30,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isShowDialog = false;
 
   void _showAppUserAgreement(BuildContext context, Data data) {
+    GlobalValues.isShowDialogWhenEnterApp = false;
+
     showCupertinoModalPopup(
       context: context,
       builder: (_) => AppUserAgreementDialog(
@@ -107,14 +109,16 @@ class _HomeScreenState extends State<HomeScreen> {
               //   });
               // }
               if (GlobalValues.isShowDialog == false) {
-                if (state.userAgreementResponseModel.data != null) {
-                  if (state.userAgreementResponseModel.data!.isShow!) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _showAppUserAgreement(
-                        context,
-                        state.userAgreementResponseModel.data!,
-                      );
-                    });
+                if (GlobalValues.isShowDialogWhenEnterApp == true) {
+                  if (state.userAgreementResponseModel.data != null) {
+                    if (state.userAgreementResponseModel.data!.isShow!) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _showAppUserAgreement(
+                          context,
+                          state.userAgreementResponseModel.data!,
+                        );
+                      });
+                    }
                   }
                 }
               }

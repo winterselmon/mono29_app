@@ -1,4 +1,4 @@
-package com.example.mono29_flutter
+package com.monobroadcast.mono29
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity
