@@ -60,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
     await Permission.storage.request();
   }
 
-  void _checkUserAgreementShown() async {
-    bool isShown = await AppPreferences.getBool(AppPrefKeys.isShowDialog);
+  void _checkUserAgreementShown() {
+    bool isShown = AppPreferences.getBool(AppPrefKeys.isShowDialog);
     GlobalValues.isShowDialog = isShown;
   }
 
@@ -102,6 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
               _currentIndex = state.currentIndex;
               _pageController.jumpToPage(_currentIndex);
             } else if (state is ShowUserAgreement) {
+              printLog(
+                  'GlobalValues.isShowDialog: ${GlobalValues.isShowDialog}');
               // if (!GlobalValues.isShowDialog) {
               //   WidgetsBinding.instance.addPostFrameCallback((_) {
               //     _showAppUserAgreement(

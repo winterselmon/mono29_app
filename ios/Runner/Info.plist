@@ -49,9 +49,9 @@
 		<false/>
 		<key>UIBackgroundModes</key>
 		<array>
-		<string>audio</string>
-		<string>airplay</string>
-		<string>picture-in-picture</string>
+			<string>audio</string>
+			<string>airplay</string>
+			<string>picture-in-picture</string>
 		</array>
 	</dict>
 </plist>

@@ -1,3 +1,4 @@
+import 'package:MONO29/core/utils/app_preferences.dart';
 import 'package:MONO29/core/utils/custom_behavior.dart';
 import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/home/presentation/screen/home_screen.dart';
@@ -12,6 +13,12 @@ Future<void> main() async {
     await dotenv.load(fileName: ".env");
   } catch (e) {
     printLog("Error loading .env file: $e");
+  }
+
+  try {
+    await AppPreferences.init();
+  } catch (e) {
+    printLog("Error initializing AppPreferences: $e");
   }
 
   runApp(const MyApp());

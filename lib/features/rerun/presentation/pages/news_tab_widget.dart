@@ -96,13 +96,7 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     width: screenWidth(context),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          playlistName,
-                          style: TextStyle(
-                              fontSize: 18, color: AppColors.whiteColor),
-                        ),
                         GestureDetector(
                           onTap: () {
                             RerunDispatcher.disPatchIsFetchRerunTab(context, 2);
@@ -112,12 +106,17 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
                             // color: Colors.amber,
                             width: 60,
                             child: Text(
-                              '>>',
+                              '<<',
                               style: TextStyle(
                                   fontSize: 20, color: AppColors.whiteColor),
                             ),
                           ),
-                        )
+                        ),
+                        Text(
+                          playlistName,
+                          style: TextStyle(
+                              fontSize: 18, color: AppColors.whiteColor),
+                        ),
                       ],
                     ),
                   ),
