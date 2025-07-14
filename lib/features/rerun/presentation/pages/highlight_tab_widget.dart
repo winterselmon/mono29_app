@@ -11,6 +11,7 @@ import 'package:MONO29/features/rerun/utils/highlight_combiner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class HighlightTabWidget extends StatefulWidget {
   const HighlightTabWidget({super.key});
@@ -89,11 +90,20 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
                                     ),
                                     addHorizontalSpace(10),
                                     Expanded(
-                                      child: Text(
-                                        allYtVideos[index].title,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: AppColors.whiteColor),
+                                      // child: Text(
+                                      //   allYtVideos[index].title,
+                                      //   style: TextStyle(
+                                      //       fontSize: 16,
+                                      //       color: AppColors.whiteColor),
+                                      // ),
+                                      child: Html(
+                                        data: allYtVideos[index].title,
+                                        style: {
+                                          "body": Style(
+                                            fontSize: FontSize(16.0),
+                                            color: AppColors.whiteColor,
+                                          ),
+                                        },
                                       ),
                                     )
                                   ],

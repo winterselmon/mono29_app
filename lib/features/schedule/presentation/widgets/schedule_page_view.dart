@@ -15,12 +15,12 @@ class SchedulePageView extends StatelessWidget {
         if (state is ScheduleLoaded) {
           final allScheduleList = getScheduleList(state.scheduleResponseModel);
           return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/bg-schedule.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
+            // decoration: BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage("assets/images/bg-schedule.jpg"),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
             child: PageView.builder(
               itemCount: allScheduleList.length,
               itemBuilder: (context, index) {

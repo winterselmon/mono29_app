@@ -90,6 +90,7 @@ import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/features/rerun/data/models/response/rerun_yt_highlight_response_model.dart';
 import 'package:MONO29/features/rerun/presentation/widgets/news/rerun_youtube_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class RerunYtHighlightDialog extends StatelessWidget {
   final RerunYtVideo rerunYtModel;
@@ -145,20 +146,39 @@ class RerunYtHighlightDialog extends StatelessWidget {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               addVerticalSpace(20),
-              Text(rerunYtModel.title,
-                  style: const TextStyle(
-                    fontSize: 16,
+              Html(
+                data: rerunYtModel.title,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(16.0),
                     fontWeight: FontWeight.bold,
                     color: AppColors.okButtonNotcheck,
-                  )),
+                  ),
+                },
+              ),
+              // Text(rerunYtModel.title,
+              //     style: const TextStyle(
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.bold,
+              //       color: AppColors.okButtonNotcheck,
+              //     )),
               addVerticalSpace(20),
               RerunYoutubePlayer(youtubeHtml: rerunYtModel.url, type: type),
               addVerticalSpace(20),
-              Text(rerunYtModel.description,
-                  style: const TextStyle(
-                    fontSize: 16,
+              Html(
+                data: rerunYtModel.description,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(16.0),
                     color: AppColors.whiteColor,
-                  )),
+                  ),
+                },
+              ),
+              // Text(rerunYtModel.description,
+              //     style: const TextStyle(
+              //       fontSize: 16,
+              //       color: AppColors.whiteColor,
+              //     )),
             ]),
           ),
         ),

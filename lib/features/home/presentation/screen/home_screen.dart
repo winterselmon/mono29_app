@@ -46,10 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _setPermission();
 
-    AppPreferences.setBool(
-      AppPrefKeys.isShowDialog,
-      false,
-    );
 
     _checkUserAgreementShown();
 
@@ -111,17 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
               //   });
               // }
               if (GlobalValues.isShowDialog == false) {
-                if (GlobalValues.isShowDialogWhenEnterApp == true) {
-                  if (state.userAgreementResponseModel.data != null) {
-                    if (state.userAgreementResponseModel.data!.isShow!) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _showAppUserAgreement(
-                          context,
-                          state.userAgreementResponseModel.data!,
-                        );
-                      });
-                    }
-                  }
+                // if (GlobalValues.isShowDialogWhenEnterApp == true) {
+                if (state.userAgreementResponseModel.data != null) {
+                  // if (state.userAgreementResponseModel.data!.isShow!) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _showAppUserAgreement(
+                      context,
+                      state.userAgreementResponseModel.data!,
+                    );
+                  });
+                  // }
+                  // }
                 }
               }
             }
