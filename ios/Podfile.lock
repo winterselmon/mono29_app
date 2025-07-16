@@ -1,4 +1,6 @@
 PODS:
+  - app_tracking_transparency (0.0.1):
+    - Flutter
   - better_player_plus (1.0.0):
     - Cache (~> 6.0.0)
     - Flutter
@@ -69,6 +71,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - better_player_plus (from `.symlinks/plugins/better_player_plus/ios`)
   - byteark_player_flutter (from `.symlinks/plugins/byteark_player_flutter/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -101,6 +104,8 @@ SPEC REPOS:
     - PINOperation
 
 EXTERNAL SOURCES:
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
   better_player_plus:
     :path: ".symlinks/plugins/better_player_plus/ios"
   byteark_player_flutter:
@@ -131,6 +136,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
+  app_tracking_transparency: 3d84f147f67ca82d3c15355c36b1fa6b66ca7c92
   better_player_plus: 10794c0ed1b3b4ae058939e22a6172f850a2039b
   byteark_player_flutter: 072379e8520cd1031a36060db03fb21a56383d52
   ByteArkPlayerSDK: 789b9f332b5d4f3e8bab98b86122597051592d0f
