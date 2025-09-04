@@ -27,7 +27,6 @@ class _ScheduleDetailDialogState extends State<ScheduleDetailDialog> {
 
   @override
   Widget build(BuildContext context) {
-    printLog(widget.postId);
     return BlocProvider(
       create: (context) =>
           ScheduleBloc(ScheduleRepositoryImpl(ScheduleDataSource(_apiService)))

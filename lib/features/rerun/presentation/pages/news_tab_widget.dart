@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/dispatch/rerun_dispatcher.dart';
 import 'package:MONO29/core/network/api_service.dart';
@@ -25,6 +27,15 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
   RerunYtPlaylistResponseModel? _cachedPlaylistModel;
   List<YtPlaylistData> playlistYt = [];
   List<PlaylistData> newsYtList = [];
+  final analytics = getIt<AnalyticsService>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    analytics.logScreenView('rerun_news_tab');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +64,11 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
+                      analytics
+                          .logEvent('tab_rerun_news_playlist', parameters: {
+                        'playlist_id': newsYtList[index].playlistId ?? '',
+                        'playlist_name': newsYtList[index].playlistName ?? '',
+                      });
                       RerunDispatcher.disPatchRerunYtPlaylist(
                           context,
                           newsYtList[index].playlistId ?? '',

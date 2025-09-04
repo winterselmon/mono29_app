@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/constants/width_height.dart';
 import 'package:MONO29/core/network/api_service.dart';
@@ -26,10 +28,19 @@ class _EventScreenState extends State<EventScreen> {
   List<Promotion>? _promotionList = [];
   List<Prnews>? _prnewsList = [];
   String titleOnWebview = 'PRNEWS';
+  final analytics = getIt<AnalyticsService>();
 
   _setCurrentTab(int tab) {
     _currentTab = tab;
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    analytics.logScreenView('event');
   }
 
   @override
@@ -79,6 +90,10 @@ class _EventScreenState extends State<EventScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    analytics.logEvent('switch_tab_event',
+                                        parameters: {
+                                          'tab_index': 'กิจกรรมร่วมสนุก'
+                                        });
                                     _setCurrentTab(0);
                                   },
                                   child: Container(
@@ -120,6 +135,10 @@ class _EventScreenState extends State<EventScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
+                                    analytics.logEvent('switch_tab_event',
+                                        parameters: {
+                                          'tab_index': 'ข่าวประชาสัมพันธ์'
+                                        });
                                     _setCurrentTab(1);
                                   },
                                   child: Container(
@@ -218,6 +237,11 @@ class _EventScreenState extends State<EventScreen> {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
+                                      analytics.logEvent('open_prnews_detail',
+                                          parameters: {
+                                            'prnews_id':
+                                                _prnewsList![index].id ?? ''
+                                          });
                                       WebViewHelper.openInAppWebView(
                                         context,
                                         _prnewsList![index].url ?? '',

@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/constants/width_height.dart';
 import 'package:MONO29/core/dispatch/hightlight_dispatcher.dart';
@@ -18,10 +20,12 @@ class HightlightScreen extends StatefulWidget {
 class _HightlightScreenState extends State<HightlightScreen> {
   int currentPage = 0;
   bool _isContact = false;
+  final analytics = getIt<AnalyticsService>();
 
   @override
   void initState() {
     super.initState();
+    analytics.logScreenView('hightlight');
   }
 
   @override
@@ -39,6 +43,7 @@ class _HightlightScreenState extends State<HightlightScreen> {
                 preferredSize: Size.fromHeight(WidthHeight.appBarHeight),
                 child: InkWell(
                   onTap: () {
+                    analytics.logEvent('tap_appbar_to_contact');
                     HightlightDispatcher.disPatchIsContact(context);
                   },
                   child: CustomAppBar(

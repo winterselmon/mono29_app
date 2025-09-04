@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/utils/app_helpers.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +14,15 @@ class SuggestButtonWidget extends StatefulWidget {
 
 class _SuggestButtonWidgetState extends State<SuggestButtonWidget> {
   double screenWidth = 0;
+  final analytics = getIt<AnalyticsService>();
 
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
+        analytics.logEvent('tap_suggest_button',
+            parameters: {'url': widget.reportUrl});
         launchUrlHelper(widget.reportUrl);
       },
       child: Container(

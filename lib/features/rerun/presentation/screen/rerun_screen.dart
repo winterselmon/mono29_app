@@ -1,9 +1,12 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/constants/width_height.dart';
 import 'package:MONO29/core/dispatch/rerun_dispatcher.dart';
 import 'package:MONO29/core/network/api_service.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/core/utils/gradient_underline_custom.dart';
+import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/rerun/bloc/rerun_bloc.dart';
 import 'package:MONO29/features/rerun/data/rerun_data_source.dart';
 import 'package:MONO29/features/rerun/data/rerun_repository_impl.dart';
@@ -23,11 +26,13 @@ class RerunScreen extends StatefulWidget {
 class _RerunScreenState extends State<RerunScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  final analytics = getIt<AnalyticsService>();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    analytics.logScreenView('rerun');
   }
 
   @override
@@ -65,6 +70,9 @@ class _RerunScreenState extends State<RerunScreen>
                   child: Builder(builder: (context) {
                     return TabBar(
                       onTap: (value) {
+                        analytics.logEvent('switch_tab_rerun', parameters: {
+                          'tab_index': value == 0 ? 'highlight' : 'news'
+                        });
                         RerunDispatcher.disPatchIsFetchRerunTab(context, value);
                       },
                       physics: NeverScrollableScrollPhysics(),

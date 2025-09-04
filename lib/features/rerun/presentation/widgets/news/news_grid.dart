@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/features/rerun/data/models/response/rerun_yt_playlist_response_model.dart';
@@ -24,6 +26,8 @@ class NewsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = getIt<AnalyticsService>();
+
     return ListView.separated(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -35,6 +39,10 @@ class NewsList extends StatelessWidget {
         YtPlaylistData gridItem = items[index];
         return GestureDetector(
           onTap: () {
+            analytics.logEvent('tab_rerun_news_detail', parameters: {
+              'news_id': items[index].videoId ?? '',
+              'news_title': items[index].title ?? '',
+            });
             _showNewsDetailDialog(
               context,
               gridItem,

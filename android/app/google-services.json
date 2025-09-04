@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405835141275",
+    "project_id": "mono29-8fa58",
+    "storage_bucket": "mono29-8fa58.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405835141275:android:7378b76eed068d02ba763e",
+        "android_client_info": {
+          "package_name": "com.monobroadcast.mono29"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB535EDbb011BGkU01I9rfxvj8euRQjNNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/utils/webview_helper.dart';
 import 'package:MONO29/features/info/data/models/info_response_model.dart';
@@ -17,6 +19,7 @@ class _UserAgreementWidgetState extends State<UserAgreementWidget> {
   double userAgreementHeight = 220.0;
   double spacing = 15.0;
   String titleOnWebview = 'POLICY';
+  final analytics = getIt<AnalyticsService>();
 
   TextStyle normalStyle = TextStyle(
       decoration: TextDecoration.underline,
@@ -52,6 +55,7 @@ class _UserAgreementWidgetState extends State<UserAgreementWidget> {
         children: [
           GestureDetector(
             onTap: () {
+              analytics.logEvent('tap_user_agreement');
               _showUserAgreement(context, widget.data.userAgreement ?? '');
             },
             child: Text(
@@ -61,6 +65,8 @@ class _UserAgreementWidgetState extends State<UserAgreementWidget> {
           ),
           GestureDetector(
             onTap: () {
+              analytics.logEvent('tap_user_policy');
+
               WebViewHelper.openInAppWebView(
                   context, widget.data.policyUrl ?? '', titleOnWebview);
             },
@@ -71,6 +77,7 @@ class _UserAgreementWidgetState extends State<UserAgreementWidget> {
           ),
           GestureDetector(
             onTap: () {
+              analytics.logEvent('tap_cookie_policy');
               WebViewHelper.openInAppWebView(
                   context, widget.data.cookieUrl ?? '', titleOnWebview);
             },

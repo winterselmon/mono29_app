@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:MONO29/core/di.dart';
 import 'package:MONO29/core/utils/app_preferences.dart';
 import 'package:MONO29/core/utils/custom_behavior.dart';
 import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/home/presentation/screen/home_screen.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -23,6 +25,9 @@ Future<void> main() async {
   } catch (e) {
     printLog("Error initializing AppPreferences: $e");
   }
+  
+  await Firebase.initializeApp();
+  await setupLocator();
 
   runApp(const MyApp());
 }

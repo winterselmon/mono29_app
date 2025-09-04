@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/network/api_service.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
@@ -24,6 +26,7 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
   final ApiService _apiService = ApiService();
   List<RerunYtVideo> allYtShorts = [];
   List<RerunYtVideo> allYtVideos = [];
+  final analytics = getIt<AnalyticsService>();
 
   void _showHighlightDetailDialog(
       BuildContext context, RerunYtVideo rerunYtModel, String type) {
@@ -34,6 +37,14 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
         type: type,
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    analytics.logScreenView('rerun_highlight_tab');
   }
 
   @override
@@ -64,6 +75,11 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+                            analytics.logEvent('tab_rerun_highlight_detail',
+                                parameters: {
+                                  'video_id': allYtVideos[index].videoId,
+                                  'video_title': allYtVideos[index].title,
+                                });
                             _showHighlightDetailDialog(
                               context,
                               allYtVideos[index],

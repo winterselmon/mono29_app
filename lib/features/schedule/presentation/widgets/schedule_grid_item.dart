@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/features/schedule/data/models/response/schedule_data.dart';
 import 'package:MONO29/features/schedule/data/models/response/schedule_item.dart';
@@ -13,6 +15,8 @@ class ScheduleGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = getIt<AnalyticsService>();
+
     final width = MediaQuery.of(context).size.width;
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -41,6 +45,10 @@ class ScheduleGridItem extends StatelessWidget {
 
         return InkWell(
           onTap: () {
+            analytics.logEvent('schedule_program_detail', parameters: {
+              'program_id': scheduleItem.programId,
+              'program_name': scheduleItem.programName,
+            });
             showDialog(
               context: context,
               builder: (_) =>
@@ -86,28 +94,6 @@ class ScheduleGridItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Positioned(
-                //   top: 5,
-                //   right: 4,
-                //   child: InkWell(
-                //     onTap: () {
-                //       // Implement notification logic here
-                //     },
-                //     child: Container(
-                //       alignment: Alignment.center,
-                //       height: 30,
-                //       width: 30,
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         color: AppColors.forDev1.withAlpha(100),
-                //       ),
-                //       child: const Icon(
-                //         Icons.notifications_none,
-                //         color: AppColors.iconNotif,
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

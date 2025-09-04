@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/core/utils/log.dart';
@@ -55,6 +57,9 @@ class _LiveScreenState extends State<LiveScreen> {
       _controller = null;
     }
     super.initState();
+
+    final analytics = getIt<AnalyticsService>();
+    analytics.logScreenView('live');
   }
 
   @override

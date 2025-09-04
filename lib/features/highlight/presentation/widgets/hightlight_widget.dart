@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/network/api_service.dart';
 import 'package:MONO29/core/utils/check_mode_utils.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
@@ -22,6 +24,7 @@ class _HightlightWidgetState extends State<HightlightWidget> {
   int currentPage = 0;
   final double _cardHeight = 450;
   late Future<HighlightResponseModel> _highlightsFuture;
+  final analytics = getIt<AnalyticsService>();
 
   _disPatchPageIndex(BuildContext context, int index) {
     context.read<HightlightBloc>().add(HLSetCurrentPageEvent(index));
@@ -86,6 +89,11 @@ class _HightlightWidgetState extends State<HightlightWidget> {
                                   // currentPage = index;
                                   return GestureDetector(
                                     onTap: () {
+                                      analytics.logEvent('highlight_item',
+                                          parameters: {
+                                            'mode': highlightItem.mode!,
+                                            'url': highlightItem.url!,
+                                          });
                                       handleMode(
                                         context,
                                         highlightItem.mode!,

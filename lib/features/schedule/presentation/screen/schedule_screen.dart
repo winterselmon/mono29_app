@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
@@ -14,6 +16,9 @@ class ScheduleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = getIt<AnalyticsService>();
+    analytics.logScreenView('schedule');
+
     return BlocProvider(
       create: (_) => ScheduleBloc(
         ScheduleRepositoryImpl(

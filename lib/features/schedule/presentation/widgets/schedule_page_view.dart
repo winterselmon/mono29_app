@@ -14,27 +14,19 @@ class SchedulePageView extends StatelessWidget {
       builder: (context, state) {
         if (state is ScheduleLoaded) {
           final allScheduleList = getScheduleList(state.scheduleResponseModel);
-          return Container(
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage("assets/images/bg-schedule.jpg"),
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
-            child: PageView.builder(
-              itemCount: allScheduleList.length,
-              itemBuilder: (context, index) {
-                final dailySchedule = allScheduleList[index];
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ScheduleDayHeader(title: dailySchedule.headSchedule),
-                      ScheduleGridItem(dailySchedule: dailySchedule),
-                    ],
-                  ),
-                );
-              },
-            ),
+          return PageView.builder(
+            itemCount: allScheduleList.length,
+            itemBuilder: (context, index) {
+              final dailySchedule = allScheduleList[index];
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ScheduleDayHeader(title: dailySchedule.headSchedule),
+                    ScheduleGridItem(dailySchedule: dailySchedule),
+                  ],
+                ),
+              );
+            },
           );
         } else if (state is ScheduleLoading) {
           return const Center(child: CircularProgressIndicator());

@@ -1,3 +1,5 @@
+import 'package:MONO29/core/analytics/analytics_service.dart';
+import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/network/api_service.dart';
 import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/info/data/info_data_source.dart';
@@ -20,6 +22,7 @@ class _ContactWidgetState extends State<ContactWidget> {
   double screenWidth = 0;
   final contactLocationHeight = 220.0;
   late Future<InfoResponseModel> _infoFuture;
+  final analytics = getIt<AnalyticsService>();
 
   Future<InfoResponseModel> fetchInfo() async {
     final apiService = ApiService();
@@ -27,8 +30,6 @@ class _ContactWidgetState extends State<ContactWidget> {
     try {
       InfoResponseModel infoResponseModel =
           await InfoDataSource(apiService).infoFeed();
-
-      printLog(infoResponseModel.toJson().toString());
 
       return infoResponseModel;
     } catch (e) {
@@ -42,6 +43,7 @@ class _ContactWidgetState extends State<ContactWidget> {
     super.initState();
 
     _infoFuture = fetchInfo();
+    analytics.logScreenView('contact');
   }
 
   @override
