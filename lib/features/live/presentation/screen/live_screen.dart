@@ -49,6 +49,7 @@ class _LiveScreenState extends State<LiveScreen> {
   late ByteArkPlayer _player;
 
   late Key _playerKey; // เพิ่ม key
+  final analytics = getIt<AnalyticsService>();
 
   @override
   void initState() {
@@ -58,7 +59,6 @@ class _LiveScreenState extends State<LiveScreen> {
     }
     super.initState();
 
-    final analytics = getIt<AnalyticsService>();
     analytics.logScreenView('live');
   }
 
@@ -207,13 +207,17 @@ class _LiveScreenState extends State<LiveScreen> {
                           widget.onBack();
                         },
                         onReplay: () async {
+                          analytics.logEvent('live_replay');
                           await reloadPlayer();
                         },
                         selectedLanguage: selectedLanguage,
                         // selectedQuality: selectedQuality,
                         onLanguageChanged: (lang) async {
                           printLog("Change language to: $lang");
-
+                          analytics
+                              .logEvent('change_live_language', parameters: {
+                            'language': lang,
+                          });
                           setState(() {
                             selectedLanguage = lang;
                           });

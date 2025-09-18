@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:MONO29/core/di.dart';
+import 'package:MONO29/core/services/nielsen_bridge.dart';
+import 'package:MONO29/core/services/nielsen_config.dart';
 import 'package:MONO29/core/utils/app_preferences.dart';
 import 'package:MONO29/core/utils/custom_behavior.dart';
 import 'package:MONO29/core/utils/log.dart';
@@ -25,7 +27,14 @@ Future<void> main() async {
   } catch (e) {
     printLog("Error initializing AppPreferences: $e");
   }
-  
+
+  try {
+    await NielsenBridge.init(
+        appId: NielsenConfig.appIdAndroid); // เรียก SDK ก่อน runApp
+  } catch (e) {
+    printLog("Error NielsenBridge: $e");
+  }
+
   await Firebase.initializeApp();
   await setupLocator();
 

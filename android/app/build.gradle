@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.monobroadcast.mono29"
-    compileSdk flutter.compileSdkVersion
+    compileSdk 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -84,9 +84,27 @@ flutter {
     source '../..'
 }
 
+repositories {
+    maven { 
+        url 'https://raw.githubusercontent.com/NielsenDigitalSDK/nielsenappsdk-android/master/' 
+    }
+}
+
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:34.1.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
+    implementation 'com.google.firebase:firebase-analytics' 
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4") {
+        exclude group: "com.nielsen.app.sdk", module: "appsdk"
+    }
+    implementation 'com.nielsenappsdk.global:ad:+' // ใช้ + จะได้เวอร์ชันล่าสุด
 
 }
+
+// // Nielsen SDK Release Check task
+// task NielsenSdkReleaseCheck {
+//     def p = ['curl',"https://raw.githubusercontent.com/NielsenDigitalSDK/" +
+//             "nielsenappsdk-android/master/com/nielsenappsdk/global/" +
+//             "NielsenAppSdk-ReadMe.md"].execute().text
+//     project.logger.log(LogLevel.ERROR,p)
+// }
+// preBuild.dependsOn('NielsenSdkReleaseCheck')
