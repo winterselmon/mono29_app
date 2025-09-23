@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:MONO29/core/analytics/analytics_service.dart';
 import 'package:MONO29/core/analytics/injection.dart';
 import 'package:MONO29/core/constants/app_colors.dart';
+import 'package:MONO29/core/services/nielsen_bridge.dart';
+import 'package:MONO29/core/services/nielsen_config.dart';
 import 'package:MONO29/core/utils/function_widgets.dart';
 import 'package:MONO29/core/utils/log.dart';
 import 'package:MONO29/features/live/presentation/widgets/live_app_bar.dart';
@@ -51,6 +54,8 @@ class _LiveScreenState extends State<LiveScreen> {
   late Key _playerKey; // เพิ่ม key
   final analytics = getIt<AnalyticsService>();
 
+  Timer? _playheadTimer; // ✅ สำหรับส่ง setPlayheadPosition
+
   @override
   void initState() {
     if (_controller != null) {
@@ -58,6 +63,11 @@ class _LiveScreenState extends State<LiveScreen> {
       _controller = null;
     }
     super.initState();
+
+    // ✅ init Nielsen SDK
+    NielsenBridge.init(
+      Platform.isAndroid ? NielsenConfig.appIdAndroid : NielsenConfig.appIdIos,
+    );
 
     analytics.logScreenView('live');
   }
@@ -70,8 +80,18 @@ class _LiveScreenState extends State<LiveScreen> {
     }
     super.dispose();
 
+    NielsenBridge.end(); // ✅ ปิด Nielsen
+
     // Clean up player instance.
     _player.dispose();
+  }
+
+  void _startPlayheadTimer() {
+    _playheadTimer?.cancel();
+    _playheadTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      final ts = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      NielsenBridge.setPlayheadPosition(ts);
+    });
   }
 
   initializePlayer(String url) {
@@ -79,11 +99,44 @@ class _LiveScreenState extends State<LiveScreen> {
 
     // Step 1: Create a listener to handle player and ad events
     _listener = ByteArkPlayerListener(
-      onPlayerReady: () {
+      onPlayerReady: () async {
         debugPrint("Player is ready.");
+        // ✅ ส่ง metadata content (Live)
+        final metadata = {
+          "assetid": "mono29-live",
+          "type": "content",
+          "isfullepisode": "y",
+          "program": "Livestream",
+          "title": "mono29-Livestream",
+          "length": "86400", // Nielsen ต้องการ String
+          "segB": "Live",
+          "segC": "",
+          "vcid": "c01",
+          "adloadtype": "2",
+        };
+
+        await NielsenBridge.loadMetadata(metadata);
+        await NielsenBridge.play();
+
+        _startPlayheadTimer();
       },
-      onAdsStart: (data) {
+      onAdsStart: (data) async {
         debugPrint("Ad started. Data: ${data.toMap()}");
+        await NielsenBridge.stop(); // stop content
+
+        final adMetadata = {
+          "assetid": "ad-12345",
+          "type": "preroll",
+          "title": "Sample Ad",
+          "length": "30",
+        };
+
+        await NielsenBridge.loadMetadata(adMetadata);
+        await NielsenBridge.play();
+      },
+      onAdsCompleted: (data) async {
+        await NielsenBridge.stop(); // stop ad
+        _startPlayheadTimer(); // resume content tracking
       },
     );
 

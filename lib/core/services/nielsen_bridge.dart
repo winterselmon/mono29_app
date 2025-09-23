@@ -1,39 +1,90 @@
+import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:MONO29/core/services/nielsen_config.dart';
 import 'package:MONO29/core/utils/log.dart';
-import 'package:flutter/services.dart';
 
 class NielsenBridge {
   static const _channel = MethodChannel("nielsen_bridge");
 
-  static Future<void> init({required String appId}) async {
+  /// Init Nielsen SDK
+  static Future<void> init(String appIdAndroid) async {
     try {
-      await _channel.invokeMethod("init", {"appId": appId});
+      final appId = Platform.isAndroid
+          ? NielsenConfig.appIdAndroid
+          : Platform.isIOS
+              ? NielsenConfig.appIdIos
+              : null;
+
+      if (appId == null) {
+        printLog("Unsupported platform: ${Platform.operatingSystem}");
+        return;
+      }
+
+      final result = await _channel.invokeMethod("init", {"appId": appId});
+      printLog("Init success: $result");
     } on PlatformException catch (e) {
-      print("Nielsen init failed: ${e.message}");
+      printLog("Init failed: ${e.message}");
+    } on MissingPluginException {
+      printLog("Init not implemented on ${Platform.operatingSystem}");
     }
   }
 
+  /// Load Metadata (e.g. program info, content type)
   static Future<void> loadMetadata(Map<String, String> metadata) async {
     try {
-      await _channel.invokeMethod("loadMetadata", {"metadata": metadata});
+      final result =
+          await _channel.invokeMethod("loadMetadata", {"metadata": metadata});
+      printLog("Load metadata success: $result");
     } on PlatformException catch (e) {
-      print("Load metadata failed: ${e.message}");
+      printLog("Load metadata failed: ${e.message}");
+    } on MissingPluginException {
+      printLog("Load metadata not implemented on ${Platform.operatingSystem}");
     }
   }
 
+  /// Play Event (start playing content)
   static Future<void> play({Map<String, String>? metadata}) async {
     try {
-      await _channel.invokeMethod("play", {"metadata": metadata ?? {}});
+      final result =
+          await _channel.invokeMethod("play", {"metadata": metadata ?? {}});
+      printLog("Play success: $result");
     } on PlatformException catch (e) {
-      print("Play failed: ${e.message}");
+      printLog("Play failed: ${e.message}");
+    } on MissingPluginException {
+      printLog("Play not implemented on ${Platform.operatingSystem}");
     }
   }
 
+  /// Stop Event (stop playback)
   static Future<void> stop() async {
     try {
-      await _channel.invokeMethod("stop");
+      final result = await _channel.invokeMethod("stop");
+      printLog("Stop success: $result");
     } on PlatformException catch (e) {
-      print("Stop failed: ${e.message}");
+      printLog("Stop failed: ${e.message}");
+    } on MissingPluginException {
+      printLog("Stop not implemented on ${Platform.operatingSystem}");
+    }
+  }
+
+  /// End Nielsen session
+  static Future<void> end() async {
+    try {
+      final result = await _channel.invokeMethod("end");
+      printLog("End success: $result");
+    } catch (e) {
+      printLog("End error: $e");
+    }
+  }
+
+  /// Update playhead position (seconds)
+  static Future<void> setPlayheadPosition(int position) async {
+    try {
+      final result = await _channel
+          .invokeMethod("setPlayheadPosition", {"position": position});
+      printLog("Set playhead position: $result");
+    } catch (e) {
+      printLog("Set playhead error: $e");
     }
   }
 }

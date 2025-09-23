@@ -29,8 +29,13 @@ Future<void> main() async {
   }
 
   try {
-    await NielsenBridge.init(
-        appId: NielsenConfig.appIdAndroid); // เรียก SDK ก่อน runApp
+    // await NielsenBridge.init(NielsenConfig.appIdAndroid);
+    if (Platform.isAndroid) {
+      await NielsenBridge.init(NielsenConfig.appIdAndroid);
+      printLog('Nielsen initialized for Android');
+    } else if (Platform.isIOS) {
+      await NielsenBridge.init(NielsenConfig.appIdIos);
+    }
   } catch (e) {
     printLog("Error NielsenBridge: $e");
   }
