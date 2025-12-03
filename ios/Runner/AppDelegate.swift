@@ -67,7 +67,6 @@ import NielsenAppApi
     private func initNielsenSdk(appId: String) {
         let appInformation: [String: String] = [
             "appid": appId,
-            "sfcode": "us",          // เปลี่ยนตาม TAM กำหนด เช่น "ap"
             "nol_devDebug": "DEBUG"  // DEBUG ตอน dev เท่านั้น
         ]
         

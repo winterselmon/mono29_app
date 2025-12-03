@@ -1,3 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/byteark/byteark-player-sdk-ios-specs.git'
+source 'https://github.com/byteark/lighthouse-sdk-native-ios-specs.git'
+source 'https://github.com/NielsenDigitalSDK/nielsenappsdk-ios-specs-dynamic.git'
+
 # Uncomment this line to define a global platform for your project
 platform :ios, '15.0'
 
@@ -27,16 +32,11 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 
 flutter_ios_podfile_setup
 
-source 'https://github.com/CocoaPods/Specs.git'
-source 'https://github.com/byteark/byteark-player-sdk-ios-specs.git'
-source 'https://github.com/byteark/lighthouse-sdk-native-ios-specs.git'
-source 'https://github.com/NielsenDigitalSDK/nielsenappsdk-ios-specs-dynamic.git'
-
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'ByteArkPlayerSDK', '~> BYTEARK_PLAYER_SDK_VERSION'
+  pod 'ByteArkPlayerSDK', '~> 0.3.8'
   pod 'NielsenAppSDK'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))

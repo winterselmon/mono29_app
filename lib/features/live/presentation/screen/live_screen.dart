@@ -34,7 +34,7 @@ class LiveScreen extends StatefulWidget {
   State<LiveScreen> createState() => _LiveScreenState();
 }
 
-class _LiveScreenState extends State<LiveScreen> {
+class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
   final ApiService apiService = ApiService();
 
   BetterPlayerController? _controller;
@@ -58,11 +58,13 @@ class _LiveScreenState extends State<LiveScreen> {
 
   @override
   void initState() {
+    super.initState();
+
     if (_controller != null) {
       _controller!.dispose();
       _controller = null;
     }
-    super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     // ✅ init Nielsen SDK
     NielsenBridge.init(
@@ -74,12 +76,16 @@ class _LiveScreenState extends State<LiveScreen> {
 
   @override
   void dispose() {
+    super.dispose();
+
     if (_controller != null) {
       _controller!.dispose();
       _controller = null;
     }
-    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
 
+    _stopPlayheadTimer();
+    NielsenBridge.stop();
     NielsenBridge.end(); // ✅ ปิด Nielsen
 
     // Clean up player instance.
@@ -92,6 +98,57 @@ class _LiveScreenState extends State<LiveScreen> {
       final ts = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       NielsenBridge.setPlayheadPosition(ts);
     });
+
+    printLog("[Nielsen] Start playhead timer");
+  }
+
+  void _stopPlayheadTimer() {
+    _playheadTimer?.cancel();
+    printLog("[Nielsen] Stop playhead timer");
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // App ปิด / จอ lock
+      await NielsenBridge.stop();
+      _stopPlayheadTimer();
+    }
+
+    if (state == AppLifecycleState.resumed) {
+      // กลับเข้ามา
+      await NielsenBridge.play();
+
+      await NielsenBridge.loadMetadata(_buildContentMetadata());
+      _startPlayheadTimer();
+    }
+  }
+
+  Map<String, String> _buildContentMetadata() {
+    return {
+      "assetid": "mono29-live",
+      "type": "content",
+      "isfullepisode": "y",
+      "program": "Livestream",
+      "title": "mono29-Livestream",
+      "length": "86400",
+      "segB": "Live",
+      "segC": "",
+      "vcid": "c01",
+      "adloadtype": "2",
+    };
+  }
+
+  Map<String, String> _buildPrerollMetadata() {
+    return {
+      "assetid": "ad-preroll",
+      "type": "preroll",
+      "title": "preroll-ad",
+      "length": "30",
+    };
   }
 
   initializePlayer(String url) {
@@ -100,42 +157,31 @@ class _LiveScreenState extends State<LiveScreen> {
     // Step 1: Create a listener to handle player and ad events
     _listener = ByteArkPlayerListener(
       onPlayerReady: () async {
-        debugPrint("Player is ready.");
-        // ✅ ส่ง metadata content (Live)
-        final metadata = {
-          "assetid": "mono29-live",
-          "type": "content",
-          "isfullepisode": "y",
-          "program": "Livestream",
-          "title": "mono29-Livestream",
-          "length": "86400", // Nielsen ต้องการ String
-          "segB": "Live",
-          "segC": "",
-          "vcid": "c01",
-          "adloadtype": "2",
-        };
+        debugPrint("[PLAYER] READY");
 
-        await NielsenBridge.loadMetadata(metadata);
         await NielsenBridge.play();
+
+        await NielsenBridge.loadMetadata(_buildContentMetadata());
 
         _startPlayheadTimer();
       },
       onAdsStart: (data) async {
-        debugPrint("Ad started. Data: ${data.toMap()}");
+        debugPrint("[AD] START Data: ${data.toMap()}");
         await NielsenBridge.stop(); // stop content
+        _stopPlayheadTimer();
 
-        final adMetadata = {
-          "assetid": "ad-12345",
-          "type": "preroll",
-          "title": "Sample Ad",
-          "length": "30",
-        };
-
-        await NielsenBridge.loadMetadata(adMetadata);
         await NielsenBridge.play();
+
+        await NielsenBridge.loadMetadata(_buildPrerollMetadata());
+
+        _startPlayheadTimer();
       },
       onAdsCompleted: (data) async {
+        debugPrint("[AD] COMPLETED Data: ${data.toMap()}");
         await NielsenBridge.stop(); // stop ad
+        _stopPlayheadTimer();
+        await NielsenBridge.play(); // play content ก่อน
+        await NielsenBridge.loadMetadata(_buildContentMetadata());
         _startPlayheadTimer(); // resume content tracking
       },
     );
@@ -172,7 +218,10 @@ class _LiveScreenState extends State<LiveScreen> {
 
     // Step 4: Initialize the ByteArkPlayer with the config and listener
     _player = ByteArkPlayer(
-        key: _playerKey, playerConfig: _config, listener: _listener);
+      key: _playerKey,
+      playerConfig: _config,
+      listener: _listener,
+    );
   }
 
   Future<void> reloadPlayer() async {

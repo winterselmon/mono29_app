@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:MONO29/core/services/nielsen_config.dart';
 import 'package:MONO29/core/utils/log.dart';
@@ -7,7 +8,8 @@ class NielsenBridge {
   static const _channel = MethodChannel("nielsen_bridge");
 
   /// Init Nielsen SDK
-  static Future<void> init(String appIdAndroid) async {
+  static Future<void> init(String appIdAndroid,
+      {bool enableDebug = kDebugMode}) async {
     try {
       final appId = Platform.isAndroid
           ? NielsenConfig.appIdAndroid
@@ -20,7 +22,13 @@ class NielsenBridge {
         return;
       }
 
-      final result = await _channel.invokeMethod("init", {"appId": appId});
+      final result = await _channel.invokeMethod(
+        "init",
+        {
+          "appId": appId,
+          "debug": enableDebug,
+        },
+      );
       printLog("Init success: $result");
     } on PlatformException catch (e) {
       printLog("Init failed: ${e.message}");

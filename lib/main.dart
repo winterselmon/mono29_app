@@ -28,17 +28,17 @@ Future<void> main() async {
     printLog("Error initializing AppPreferences: $e");
   }
 
-  try {
-    // await NielsenBridge.init(NielsenConfig.appIdAndroid);
-    if (Platform.isAndroid) {
-      await NielsenBridge.init(NielsenConfig.appIdAndroid);
-      printLog('Nielsen initialized for Android');
-    } else if (Platform.isIOS) {
-      await NielsenBridge.init(NielsenConfig.appIdIos);
-    }
-  } catch (e) {
-    printLog("Error NielsenBridge: $e");
-  }
+  // try {
+  //   // await NielsenBridge.init(NielsenConfig.appIdAndroid);
+  //   if (Platform.isAndroid) {
+  //     await NielsenBridge.init(NielsenConfig.appIdAndroid);
+  //     printLog('Nielsen initialized for Android');
+  //   } else if (Platform.isIOS) {
+  //     await NielsenBridge.init(NielsenConfig.appIdIos);
+  //   }
+  // } catch (e) {
+  //   printLog("Error NielsenBridge: $e");
+  // }
 
   await Firebase.initializeApp();
   await setupLocator();

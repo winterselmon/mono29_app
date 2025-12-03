@@ -74,7 +74,6 @@ class MainActivity : FlutterFragmentActivity() {
         try {
             val config = JSONObject().apply {
                 put("appid", appId)
-                put("sfcode", "us")          // เปลี่ยนเป็นค่า sfcode ที่ TAM กำหนด เช่น "ap" สำหรับเอเชีย
                 put("nol_devDebug", "DEBUG") // ใช้ DEBUG mode ตอน dev
             }
 
