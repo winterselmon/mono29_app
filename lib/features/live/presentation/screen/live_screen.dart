@@ -55,6 +55,8 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
   final analytics = getIt<AnalyticsService>();
 
   Timer? _playheadTimer; // ✅ สำหรับส่ง setPlayheadPosition
+  bool _isPlaying = false;
+  bool _isInAd = false;
 
   @override
   void initState() {
@@ -76,12 +78,6 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    super.dispose();
-
-    if (_controller != null) {
-      _controller!.dispose();
-      _controller = null;
-    }
     WidgetsBinding.instance.removeObserver(this);
 
     _stopPlayheadTimer();
@@ -90,10 +86,19 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
 
     // Clean up player instance.
     _player.dispose();
+
+    if (_controller != null) {
+      _controller!.dispose();
+      _controller = null;
+    }
+
+    super.dispose();
   }
 
   void _startPlayheadTimer() {
-    _playheadTimer?.cancel();
+    _stopPlayheadTimer(); // 🔒 ปิดของเก่าก่อนเสมอ
+
+    // _playheadTimer?.cancel();
     _playheadTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       final ts = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       NielsenBridge.setPlayheadPosition(ts);
@@ -104,7 +109,26 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
 
   void _stopPlayheadTimer() {
     _playheadTimer?.cancel();
+    _playheadTimer = null;
     printLog("[Nielsen] Stop playhead timer");
+  }
+
+  Future<void> _nielsenPlayContent() async {
+    if (_isPlaying || _isInAd) return;
+
+    _isPlaying = true;
+    await NielsenBridge.play();
+    await NielsenBridge.loadMetadata(_buildContentMetadata());
+    _startPlayheadTimer();
+  }
+
+  Future<void> _nielsenPauseContent() async {
+    if (!_isPlaying) return;
+
+    _isPlaying = false;
+    _stopPlayheadTimer();
+    debugPrint("[Nielsen] Pause content _nielsenPauseContent");
+    await NielsenBridge.stop();
   }
 
   @override
@@ -114,16 +138,18 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
       // App ปิด / จอ lock
-      await NielsenBridge.stop();
-      _stopPlayheadTimer();
+      // await NielsenBridge.stop();
+      // _stopPlayheadTimer();
+      await _nielsenPauseContent();
     }
 
     if (state == AppLifecycleState.resumed) {
       // กลับเข้ามา
-      await NielsenBridge.play();
+      // await NielsenBridge.play();
 
-      await NielsenBridge.loadMetadata(_buildContentMetadata());
-      _startPlayheadTimer();
+      // await NielsenBridge.loadMetadata(_buildContentMetadata());
+      // _startPlayheadTimer();
+      await _nielsenPlayContent();
     }
   }
 
@@ -159,16 +185,31 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
       onPlayerReady: () async {
         debugPrint("[PLAYER] READY");
 
-        await NielsenBridge.play();
+        // await NielsenBridge.play();
 
-        await NielsenBridge.loadMetadata(_buildContentMetadata());
+        // await NielsenBridge.loadMetadata(_buildContentMetadata());
 
-        _startPlayheadTimer();
+        // _startPlayheadTimer();
+        await _nielsenPlayContent();
+      },
+      onPlaybackPause: () async {
+        debugPrint("[PLAYER] PAUSE");
+        if (_isInAd) return;
+        await _nielsenPauseContent();
+      },
+      onPlaybackPlay: () async {
+        debugPrint("[PLAYER] PLAY");
+        if (_isInAd) return;
+        await _nielsenPlayContent();
       },
       onAdsStart: (data) async {
         debugPrint("[AD] START Data: ${data.toMap()}");
-        await NielsenBridge.stop(); // stop content
-        _stopPlayheadTimer();
+        _isInAd = true;
+
+        await _nielsenPauseContent(); // stop content
+
+        // await NielsenBridge.stop(); // stop content
+        // _stopPlayheadTimer();
 
         await NielsenBridge.play();
 
@@ -178,11 +219,16 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
       },
       onAdsCompleted: (data) async {
         debugPrint("[AD] COMPLETED Data: ${data.toMap()}");
-        await NielsenBridge.stop(); // stop ad
+        _isInAd = false;
+
         _stopPlayheadTimer();
-        await NielsenBridge.play(); // play content ก่อน
-        await NielsenBridge.loadMetadata(_buildContentMetadata());
-        _startPlayheadTimer(); // resume content tracking
+        await NielsenBridge.stop(); // stop ad
+
+        await _nielsenPlayContent(); // resume content
+
+        // await NielsenBridge.play(); // play content ก่อน
+        // await NielsenBridge.loadMetadata(_buildContentMetadata());
+        // _startPlayheadTimer(); // resume content tracking
       },
     );
 
@@ -227,6 +273,8 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
   Future<void> reloadPlayer() async {
     EasyLoading.show();
 
+    await _nielsenPauseContent(); // 🔴 สำคัญ
+    _isInAd = false;
     // 1. Dispose player เก่า
     _player.dispose();
 
