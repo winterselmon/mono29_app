@@ -74,7 +74,6 @@ class MainActivity : FlutterFragmentActivity() {
         try {
             val config = JSONObject().apply {
                 put("appid", appId)
-                put("nol_devDebug", "DEBUG") // ใช้ DEBUG mode ตอน dev
             }
 
             val notifier = object : IAppNotifier {

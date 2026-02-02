@@ -67,7 +67,6 @@ import NielsenAppApi
     private func initNielsenSdk(appId: String) {
         let appInformation: [String: String] = [
             "appid": appId,
-            "nol_devDebug": "DEBUG"  // DEBUG ตอน dev เท่านั้น
         ]
         
         nielsenAppApi = NielsenAppApi(appInfo: appInformation, delegate: nil)
