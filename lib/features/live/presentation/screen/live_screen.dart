@@ -52,7 +52,6 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
   late ByteArkPlayer _player;
 
   late Key _playerKey; // เพิ่ม key
-  final analytics = getIt<AnalyticsService>();
 
   Timer? _playheadTimer; // ✅ สำหรับส่ง setPlayheadPosition
   bool _isPlaying = false;
@@ -74,7 +73,7 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
       Platform.isAndroid ? NielsenConfig.appIdAndroid : NielsenConfig.appIdIos,
     );
 
-    analytics.logScreenView('live');
+    AnalyticsService().logScreenView("live", "LiveScreen");
   }
 
   @override
@@ -379,14 +378,14 @@ class _LiveScreenState extends State<LiveScreen> with WidgetsBindingObserver {
                           widget.onBack();
                         },
                         onReplay: () async {
-                          analytics.logEvent('live_replay');
+                          AnalyticsService().logEvent('live_replay');
                           await reloadPlayer();
                         },
                         selectedLanguage: selectedLanguage,
                         // selectedQuality: selectedQuality,
                         onLanguageChanged: (lang) async {
                           printLog("Change language to: $lang");
-                          analytics
+                          AnalyticsService()
                               .logEvent('change_live_language', parameters: {
                             'language': lang,
                           });

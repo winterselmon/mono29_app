@@ -26,7 +26,6 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
   final ApiService _apiService = ApiService();
   List<RerunYtVideo> allYtShorts = [];
   List<RerunYtVideo> allYtVideos = [];
-  final analytics = getIt<AnalyticsService>();
 
   void _showHighlightDetailDialog(
       BuildContext context, RerunYtVideo rerunYtModel, String type) {
@@ -44,7 +43,7 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
     // TODO: implement initState
     super.initState();
 
-    analytics.logScreenView('rerun_highlight_tab');
+    AnalyticsService().logScreenView('rerun_highlight_tab', 'HighlightTab');
   }
 
   @override
@@ -75,7 +74,8 @@ class _HighlightTabWidgetState extends State<HighlightTabWidget> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            analytics.logEvent('tab_rerun_highlight_detail',
+                            AnalyticsService().logEvent(
+                                'tab_rerun_highlight_detail',
                                 parameters: {
                                   'video_id': allYtVideos[index].videoId,
                                   'video_title': allYtVideos[index].title,

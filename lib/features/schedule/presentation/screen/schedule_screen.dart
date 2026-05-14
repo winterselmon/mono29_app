@@ -16,8 +16,7 @@ class ScheduleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final analytics = getIt<AnalyticsService>();
-    analytics.logScreenView('schedule');
+    AnalyticsService().logScreenView('schedule', 'ScheduleScreen');
 
     return BlocProvider(
       create: (_) => ScheduleBloc(

@@ -20,12 +20,11 @@ class HightlightScreen extends StatefulWidget {
 class _HightlightScreenState extends State<HightlightScreen> {
   int currentPage = 0;
   bool _isContact = false;
-  final analytics = getIt<AnalyticsService>();
 
   @override
   void initState() {
     super.initState();
-    analytics.logScreenView('hightlight');
+    AnalyticsService().logScreenView('hightlight', 'HightlightScreen');
   }
 
   @override
@@ -43,7 +42,7 @@ class _HightlightScreenState extends State<HightlightScreen> {
                 preferredSize: Size.fromHeight(WidthHeight.appBarHeight),
                 child: InkWell(
                   onTap: () {
-                    analytics.logEvent('tap_appbar_to_contact');
+                    AnalyticsService().logEvent('tap_appbar_to_contact');
                     HightlightDispatcher.disPatchIsContact(context);
                   },
                   child: CustomAppBar(

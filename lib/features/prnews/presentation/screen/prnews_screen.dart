@@ -28,7 +28,6 @@ class _EventScreenState extends State<EventScreen> {
   List<Promotion>? _promotionList = [];
   List<Prnews>? _prnewsList = [];
   String titleOnWebview = 'PRNEWS';
-  final analytics = getIt<AnalyticsService>();
 
   _setCurrentTab(int tab) {
     _currentTab = tab;
@@ -40,7 +39,7 @@ class _EventScreenState extends State<EventScreen> {
     // TODO: implement initState
     super.initState();
 
-    analytics.logScreenView('event');
+    AnalyticsService().logScreenView('event', 'EventScreen');
   }
 
   @override
@@ -90,7 +89,8 @@ class _EventScreenState extends State<EventScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    analytics.logEvent('switch_tab_event',
+                                    AnalyticsService().logEvent(
+                                        'switch_tab_event',
                                         parameters: {
                                           'tab_index': 'กิจกรรมร่วมสนุก'
                                         });
@@ -135,7 +135,8 @@ class _EventScreenState extends State<EventScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    analytics.logEvent('switch_tab_event',
+                                    AnalyticsService().logEvent(
+                                        'switch_tab_event',
                                         parameters: {
                                           'tab_index': 'ข่าวประชาสัมพันธ์'
                                         });
@@ -237,7 +238,8 @@ class _EventScreenState extends State<EventScreen> {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                                      analytics.logEvent('open_prnews_detail',
+                                      AnalyticsService().logEvent(
+                                          'open_prnews_detail',
                                           parameters: {
                                             'prnews_id':
                                                 _prnewsList![index].id ?? ''

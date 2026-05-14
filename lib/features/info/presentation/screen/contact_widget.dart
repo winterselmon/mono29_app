@@ -22,7 +22,6 @@ class _ContactWidgetState extends State<ContactWidget> {
   double screenWidth = 0;
   final contactLocationHeight = 220.0;
   late Future<InfoResponseModel> _infoFuture;
-  final analytics = getIt<AnalyticsService>();
 
   Future<InfoResponseModel> fetchInfo() async {
     final apiService = ApiService();
@@ -43,7 +42,7 @@ class _ContactWidgetState extends State<ContactWidget> {
     super.initState();
 
     _infoFuture = fetchInfo();
-    analytics.logScreenView('contact');
+    AnalyticsService().logScreenView('contact', 'ContactScreen');
   }
 
   @override

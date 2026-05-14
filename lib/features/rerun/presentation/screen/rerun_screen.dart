@@ -26,13 +26,12 @@ class RerunScreen extends StatefulWidget {
 class _RerunScreenState extends State<RerunScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  final analytics = getIt<AnalyticsService>();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    analytics.logScreenView('rerun');
+    AnalyticsService().logScreenView('rerun', 'RerunScreen');
   }
 
   @override
@@ -70,9 +69,10 @@ class _RerunScreenState extends State<RerunScreen>
                   child: Builder(builder: (context) {
                     return TabBar(
                       onTap: (value) {
-                        analytics.logEvent('switch_tab_rerun', parameters: {
-                          'tab_index': value == 0 ? 'highlight' : 'news'
-                        });
+                        AnalyticsService().logEvent('switch_tab_rerun',
+                            parameters: {
+                              'tab_index': value == 0 ? 'highlight' : 'news'
+                            });
                         RerunDispatcher.disPatchIsFetchRerunTab(context, value);
                       },
                       physics: NeverScrollableScrollPhysics(),
